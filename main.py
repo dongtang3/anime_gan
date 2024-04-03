@@ -62,7 +62,7 @@ def main():
     optimizer_disc = Adam(discriminator.parameters(), lr=args.learning_rate, betas=(args.beta1, 0.999))
 
     fixed_noise = torch.randn(64, 100, 1, 1, device=device)
-
+    losses_gen, losses_disc = [], []
     for epoch in range(args.epochs):
         progress_bar = tqdm(enumerate(data_loader), total=len(data_loader))
         for i, real_images in progress_bar:
@@ -101,11 +101,11 @@ def main():
                 img_grid = make_grid(fake_images, normalize=True)
                 save_path = f"saved/img/epoch_{epoch}.png"
                 save_image(img_grid, save_path)
-                # Saving model checkpoints
+    # Saving model checkpoints
     torch.save(generator.state_dict(), f"saved/generator_epoch.pt")
     torch.save(discriminator.state_dict(), f"saved/discriminator_epoch.pt")
     create_gif("training_evolution.gif", "saved/img/")
-    visualize_loss("generator_loss.txt", "discriminator_loss.txt")
+    visualize_loss(losses_gen, losses_disc)
 
 if __name__ == "__main__":
     main()
