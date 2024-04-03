@@ -2,7 +2,7 @@ import os, imageio, scipy.misc
 import matplotlib.pyplot as plt
 
 
-def creat_gif(gif_name, img_path, duration=0.3):
+def create_gif(gif_name, img_path, duration=0.3):
     frames = []
     img_names = os.listdir(img_path)
     img_list = [os.path.join(img_path, img_name) for img_name in img_names]
