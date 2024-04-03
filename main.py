@@ -38,6 +38,8 @@ def main():
     else:
         device = torch.device("cpu")
 
+    print(f"Using device: {device}")
+
     if not os.path.exists("saved"):
         os.mkdir("saved")
     if not os.path.exists("saved/img"):
@@ -121,9 +123,13 @@ def main():
             torch.save(generate, os.path.join(os.getcwd(), "saved/generate.t7"))
             torch.save(discriminator, os.path.join(os.getcwd(), "saved/discriminator.t7"))
 
-            img = generate(fixed_noise).to("cpu").detach().numpy()
 
-            display_grid = np.zeros((8 * 96, 8 * 96, 3))
+
+            img = generate(fixed_noise).to("cpu").detach().numpy()
+            # 调整图像数据的范围到[0,255] 并且转换为 uint8
+            img = ((img + 1) * 127.5).astype(np.uint8)  # 归一化到 [0,255]
+
+            display_grid = np.zeros((8 * 96, 8 * 96, 3), dtype=np.uint8)
 
             for j in range(int(64 / 8)):
                 for k in range(int(64 / 8)):
@@ -131,7 +137,7 @@ def main():
                                                                                                           0) + 1) / 2
 
             img_save_path = os.path.join(os.getcwd(), "saved/img/{}.png".format(epoch))
-            imageio.imread(img_save_path, display_grid)
+            imageio.imwrite(img_save_path, display_grid)
 
     creat_gif("evolution.gif", os.path.join(os.getcwd(), "saved/img"))
 
