@@ -47,5 +47,7 @@ python main.py
 500 epochs result
 ![epoch_499.png](saved%2Fimg%2Fepoch_499.png)
 
+# Training Evolution
 The entire training process 0-500 epochs
+
 ![training_evolution.gif](training_evolution.gif)
