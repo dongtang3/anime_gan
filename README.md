@@ -40,4 +40,10 @@ python main.py
 
 1 epochs result
 ![epoch_0.png](saved%2Fimg%2Fepoch_0.png)
+
+200 epochs result 
+![epoch_200.png](saved%2Fimg%2Fepoch_200.png)
+
 500 epochs result
+![epoch_499.png](saved%2Fimg%2Fepoch_499.png)
+

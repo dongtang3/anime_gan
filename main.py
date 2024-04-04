@@ -61,7 +61,7 @@ def main():
     optimizer_gen = Adam(generator.parameters(), lr=args.learning_rate, betas=(args.beta1, 0.999))
     optimizer_disc = Adam(discriminator.parameters(), lr=args.learning_rate, betas=(args.beta1, 0.999))
 
-    fixed_noise = torch.randn(64, 100, 1, 1, device=device)
+    fixed_noise = torch.randn(25, 100, 1, 1, device=device)
     losses_gen, losses_disc = [], []
     for epoch in range(args.epochs):
         progress_bar = tqdm(enumerate(data_loader), total=len(data_loader))
@@ -93,12 +93,14 @@ def main():
 
             progress_bar.set_description(f"Epoch [{epoch+1}/{args.epochs}] Loss D: {loss_discriminator.item():.4f}, loss G: {loss_generator.item():.4f}")
 
+            losses_gen.append(loss_generator.item())
+            losses_disc.append(loss_discriminator.item())
         if epoch % 20 == 0 or epoch == args.epochs-1:
 
             # Saving a grid of generated images
             with torch.no_grad():
                 fake_images = generator(fixed_noise)
-                img_grid = make_grid(fake_images, normalize=True)
+                img_grid = make_grid(fake_images,nrow=5, normalize=True)
                 save_path = f"saved/img/epoch_{epoch}.png"
                 save_image(img_grid, save_path)
     # Saving model checkpoints
